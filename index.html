@@ -1,0 +1,953 @@
+<title>雲端服務規劃備課大綱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Noto+Serif+TC:wght@600;700;900&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    color-scheme: light;
+    --surface:     #f9f9f7;
+    --card:        #fcfcfb;
+    --ink:         #0b0b0b;
+    --ink-2:       #52514e;
+    --ink-muted:   #898781;
+    --hairline:    #e1e0d9;
+    --border:      rgba(11,11,11,0.10);
+    --accent-ring: #c23a3a;
+    --accent-bg:   #fbeceb;
+
+    --c1: #2a78d6; --c1-tint: #eaf1fb;
+    --c2: #d1592a; --c2-tint: #fbeee7;
+    --c3: #14966a; --c3-tint: #e7f5ef;
+    --c4: #b8860a; --c4-tint: #faf3df;
+    --c5: #c14a78; --c5-tint: #fbedf2;
+    --c6: #2f7a2f; --c6-tint: #edf5ec;
+    --c7: #5b4ea3; --c7-tint: #eeecf9;
+    --c8: #4d6b80; --c8-tint: #eaf0f3;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface:     #0d0d0d;
+      --card:        #1a1a19;
+      --ink:         #ffffff;
+      --ink-2:       #c3c2b7;
+      --ink-muted:   #898781;
+      --hairline:    #2c2c2a;
+      --border:      rgba(255,255,255,0.12);
+      --accent-ring: #e66767;
+      --accent-bg:   #2a1615;
+
+      --c1: #3987e5; --c1-tint: #14202f;
+      --c2: #d95926; --c2-tint: #2a1c10;
+      --c3: #199e70; --c3-tint: #0f2620;
+      --c4: #c98500; --c4-tint: #2a2110;
+      --c5: #d55181; --c5-tint: #2a151e;
+      --c6: #3fb53f; --c6-tint: #142616;
+      --c7: #9085e9; --c7-tint: #1c1930;
+      --c8: #8fa3b8; --c8-tint: #16222a;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface:     #0d0d0d;
+    --card:        #1a1a19;
+    --ink:         #ffffff;
+    --ink-2:       #c3c2b7;
+    --ink-muted:   #898781;
+    --hairline:    #2c2c2a;
+    --border:      rgba(255,255,255,0.12);
+    --accent-ring: #e66767;
+    --accent-bg:   #2a1615;
+
+    --c1: #3987e5; --c1-tint: #14202f;
+    --c2: #d95926; --c2-tint: #2a1c10;
+    --c3: #199e70; --c3-tint: #0f2620;
+    --c4: #c98500; --c4-tint: #2a2110;
+    --c5: #d55181; --c5-tint: #2a151e;
+    --c6: #3fb53f; --c6-tint: #142616;
+    --c7: #9085e9; --c7-tint: #1c1930;
+    --c8: #8fa3b8; --c8-tint: #16222a;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  }
+  h1, h2, h3 { font-family: "Noto Serif TC", "Noto Sans TC", serif; }
+
+  a { color: inherit; }
+
+  #topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in oklab, var(--card) 92%, transparent);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar-inner {
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .brand { display: flex; flex-direction: column; gap: 1px; margin-right: 6px; }
+  .brand .name { font-size: 15px; font-weight: 900; font-family: "Noto Serif TC", serif; }
+  .brand .sub { font-size: 11px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+
+  .search-wrap { position: relative; flex: 1 1 180px; min-width: 140px; max-width: 260px; }
+  .search-wrap input {
+    width: 100%;
+    padding: 7px 12px 7px 30px;
+    border-radius: 8px;
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+    outline: none;
+  }
+  .search-wrap input:focus { border-color: var(--c1); }
+  .search-wrap svg { position: absolute; left: 9px; top: 50%; transform: translateY(-50%); opacity: 0.5; pointer-events: none; }
+
+  .toolbtn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 12px; border-radius: 8px;
+    border: 1px solid var(--hairline);
+    background: var(--surface); color: var(--ink-2);
+    font-family: inherit; font-size: 12.5px; font-weight: 500;
+    cursor: pointer; white-space: nowrap;
+  }
+  .toolbtn:hover { border-color: var(--ink-muted); color: var(--ink); }
+  .toolbtn.active { background: var(--accent-bg); border-color: var(--accent-ring); color: var(--accent-ring); }
+
+  .jumpnav { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+  .jumpchip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 5px 9px; border-radius: 999px;
+    border: 1px solid var(--hairline);
+    background: var(--surface);
+    font-family: inherit;
+    font-size: 11.5px; font-weight: 700;
+    text-decoration: none;
+    color: var(--ink-2);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .jumpchip .dot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  .jumpchip:hover { border-color: var(--ink-muted); color: var(--ink); }
+  .jumpchip.active { background: var(--ink); border-color: var(--ink); color: var(--card); }
+  .jumpchip.active .dot { outline: 2px solid var(--card); outline-offset: 1px; }
+
+  #page { max-width: 980px; margin: 0 auto; padding: 28px 24px 80px; }
+
+  .hero { margin-bottom: 26px; }
+  .hero .eyebrow {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--ink-muted); margin-bottom: 8px;
+  }
+  .hero h1 { font-size: 26px; font-weight: 900; margin: 0 0 8px; line-height: 1.3; text-wrap: balance; }
+  .hero p { font-size: 14px; color: var(--ink-2); line-height: 1.8; max-width: 62ch; margin: 0; }
+
+  .plan-table {
+    margin-top: 22px;
+    border: 1px solid var(--hairline);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--card);
+  }
+  .plan-row {
+    display: grid;
+    grid-template-columns: 22px 1.4fr 62px 78px 62px 58px 78px;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid var(--hairline);
+    font-size: 12.5px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+  .plan-row:first-child { border-top: none; background: color-mix(in oklab, var(--ink) 4%, var(--card)); font-weight: 700; color: var(--ink-muted); font-size: 11px; letter-spacing: .03em; }
+  .plan-row:not(:first-child):hover { background: color-mix(in oklab, var(--ink) 3%, var(--card)); }
+  .plan-row .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .plan-row .name { font-weight: 700; }
+  .plan-row .num { font-variant-numeric: tabular-nums; text-align: right; color: var(--ink-2); }
+  .plan-row .hours-cell { font-weight: 700; color: var(--ink); }
+  .plan-row:first-child .hours-cell { font-weight: 700; color: var(--ink-muted); }
+  .weightbar { grid-column: 1 / -1; height: 6px; border-radius: 4px; background: var(--hairline); overflow: hidden; margin: 0 16px 12px; display: flex; }
+  .weightbar span { height: 100%; }
+
+  .hours-wrap {
+    display: flex; align-items: center; gap: 8px;
+    margin: 18px 0 -6px;
+    font-size: 12.5px; color: var(--ink-2);
+  }
+  .hours-wrap input {
+    width: 64px;
+    padding: 5px 8px;
+    border-radius: 7px;
+    border: 1px solid var(--hairline);
+    background: var(--card);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 12.5px;
+    font-variant-numeric: tabular-nums;
+  }
+  .hours-wrap input:focus { outline: none; border-color: var(--c1); }
+
+  .unit {
+    margin-top: 44px;
+    scroll-margin-top: 84px;
+  }
+  .unit-head {
+    display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    padding-bottom: 14px; margin-bottom: 18px;
+    border-bottom: 3px solid var(--u-color);
+  }
+  .unit-head .idx {
+    font-family: "Noto Serif TC", serif;
+    font-size: 13px; font-weight: 700; color: var(--u-color);
+    border: 1.5px solid var(--u-color); border-radius: 50%;
+    width: 26px; height: 26px; display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .unit-head h2 { font-size: 20px; font-weight: 900; margin: 0; flex: 1 1 auto; min-width: 200px; }
+  .unit-meta { font-size: 12px; color: var(--ink-muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .unit-copy {
+    border: 1px solid var(--hairline); background: var(--card); color: var(--ink-2);
+    border-radius: 7px; padding: 5px 10px; font-size: 11.5px; cursor: pointer; font-family: inherit;
+  }
+  .unit-copy:hover { border-color: var(--u-color); color: var(--u-color); }
+
+  .subgrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .unit.single .subgrid { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 900px) { .unit.single .subgrid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 700px) { .subgrid, .unit.single .subgrid { grid-template-columns: 1fr; } }
+
+  .back-to-overview {
+    display: none;
+    align-items: center;
+    gap: 6px;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--ink-muted);
+    background: none;
+    border: none;
+    font-family: inherit;
+    cursor: pointer;
+    padding: 0 0 16px;
+  }
+  .back-to-overview:hover { color: var(--ink); }
+  body.tab-single .back-to-overview { display: inline-flex; }
+  body.tab-single #plan-table, body.tab-single .hero, body.tab-single .hours-wrap { display: none; }
+
+  .subcard {
+    background: var(--u-tint);
+    border: 1px solid color-mix(in oklab, var(--u-color) 30%, var(--hairline));
+    border-radius: 12px;
+    padding: 14px 16px;
+  }
+  .subcard h3 {
+    font-size: 13.5px; font-weight: 700; margin: 0 0 10px;
+    color: var(--ink);
+    font-family: "Noto Sans TC", sans-serif;
+  }
+  .subcard ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .subcard li { font-size: 12.5px; line-height: 1.6; color: var(--ink-2); }
+  .subcard li b { color: var(--ink); font-weight: 700; }
+  .subcard li .star { color: var(--accent-ring); margin-right: 2px; }
+  .subcard li.hot { background: var(--accent-bg); margin: 0 -8px; padding: 4px 8px; border-radius: 6px; }
+
+  .pt-row { position: relative; }
+  .subcard li.expandable { cursor: pointer; }
+  .subcard li.expandable:hover .pt-row { background: color-mix(in oklab, var(--u-color) 8%, transparent); }
+  .subcard li.expandable:focus-visible { outline: 2px solid var(--u-color); outline-offset: 2px; border-radius: 5px; }
+  .subcard li.expandable .pt-row {
+    padding: 2px 44px 2px 4px;
+    margin: -2px -4px;
+    border-radius: 6px;
+  }
+  .expand-mark {
+    position: absolute; right: 0; top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex; align-items: center; gap: 3px;
+    color: var(--u-color);
+    background: color-mix(in oklab, var(--u-color) 14%, transparent);
+    border-radius: 999px;
+    padding: 1px 7px 1px 6px;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .expand-mark .chev { display: inline-block; transition: transform 0.15s ease; }
+  .subcard li.expanded .expand-mark .chev { transform: rotate(180deg); }
+
+  .subcard li .sub-terms {
+    list-style: none;
+    margin: 8px 0 0;
+    padding: 8px 0 2px 12px;
+    border-left: 2px solid color-mix(in oklab, var(--u-color) 45%, var(--hairline));
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .subcard li.expanded .sub-terms { display: flex; }
+  .subcard .sub-terms li { font-size: 12px; color: var(--ink-2); cursor: default; }
+  .subcard .sub-terms li b { color: var(--u-color); font-weight: 700; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .expand-mark { transition: transform 0.15s ease; }
+  }
+
+  li.pt-dim { opacity: 0.28; }
+  li.pt-match { outline: 2px solid var(--c1); outline-offset: 2px; border-radius: 5px; }
+
+  #no-results { display: none; text-align: center; color: var(--ink-muted); font-size: 13px; padding: 60px 0; }
+
+  footer {
+    max-width: 980px; margin: 40px auto 0; padding: 20px 24px 40px;
+    border-top: 1px solid var(--hairline);
+    font-size: 11.5px; color: var(--ink-muted); line-height: 1.9;
+  }
+
+  @media print {
+    #topbar { position: static; }
+    .jumpnav, .search-wrap, #btn-hot, #btn-copyall, .unit-copy, #btn-expand-terms, .hours-wrap { display: none !important; }
+    .expand-mark { display: none !important; }
+    .subcard li .sub-terms { display: flex !important; }
+    body { background: #fff; color: #000; }
+    body.tab-single #plan-table, body.tab-single .hero, body.tab-single .hours-wrap { display: none; }
+  }
+</style>
+
+<div id="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="name" id="brand-name">備課大綱</div>
+      <div class="sub" id="stat-line">載入中…</div>
+    </div>
+    <div class="search-wrap">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="search" type="text" placeholder="搜尋知識點、專有名詞…" autocomplete="off">
+    </div>
+    <button class="toolbtn" id="btn-hot">★ 只看易混淆重點</button>
+    <button class="toolbtn" id="btn-expand-terms">▾ 展開全部名詞說明</button>
+    <button class="toolbtn" id="btn-copyall">複製全部大綱</button>
+    <nav class="jumpnav" id="jumpnav"></nav>
+  </div>
+</div>
+
+<div id="page">
+  <button class="back-to-overview" id="btn-back">← 回總覽</button>
+  <div class="hero">
+    <div class="eyebrow" id="hero-eyebrow">備課參考</div>
+    <h1 id="hero-title">把題庫整理成可以直接拿去排課的大綱</h1>
+    <p id="hero-desc"></p>
+  </div>
+
+  <div class="hours-wrap">
+    <label for="hours-input">總授課時數</label>
+    <input type="number" id="hours-input" min="0" step="0.5" placeholder="例如 18">
+    <span>小時 → 下表自動換算各單元建議時數</span>
+  </div>
+  <div class="plan-table" id="plan-table"></div>
+
+  <div id="units"></div>
+  <div id="no-results">沒有符合「<span id="no-results-q"></span>」的知識點</div>
+
+  <footer id="page-footer"></footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var CONFIG = {
+    pageTitle: "雲端服務規劃備課大綱",
+    courseName: "【EEC】雲端服務規劃(114/115)",
+    courseCode: "CLS25",
+    heroTitle: null,
+    heroDesc: null,
+    sourceNote: "CSF 雲端練功坊「雲端服務規劃」練習題庫"
+  };
+
+  var DATA = [
+    {
+      name: "雲端運算的概念", short: "基礎概念", count: 50, key: "c1",
+      subtopics: [
+        { name: "雲端運算基礎定義與發展", points: [
+          ["雲端運算完整定義", "透過網際網路以「服務形式」提供大量可擴充IT運算能力，使用者不需了解實體資源細節、無須直接控制，只需選擇所需資源。", 0],
+          ["「雲」的意義", "指網際網路本身，非電腦公司、電腦設備、分散式系統。", 1],
+          ["雲端運算並非全新技術", "不是2000年後才被提出的技術，是既有技術概念的整合。", 1],
+          ["技術發展順序", "網格運算Grid Computing→公用運算Utility Computing→軟體即服務SaaS→雲端運算Cloud Computing。", 0],
+          ["雲端服務四層架構模型", "基礎架構層（能抽象化實體硬體資源、實現資源管理優化自動功能）／平台層／應用層／混合層，是與IaaS/PaaS/SaaS不同的另一套分類角度。", 1],
+          ["公共事業計費類比", "雲端運算特性與傳統水電公用事業相同之處：隨需供應＋用戶按使用量付費。", 0]
+        ]},
+        { name: "NIST五大基礎特徵", points: [
+          ["隨選自助服務", "On-demand self-service，用戶可自行取用資源，不需人工介入。", 0],
+          ["廣泛網路接取", "Broad Network Access，透過標準機制經由網路存取。", 0],
+          ["資源池", "Resource Pooling，多租戶共用資源池動態分配。", 0],
+          ["快速彈性", "Rapid Elasticity，可快速擴充/釋放資源因應需求。", 0],
+          ["可被監控及量測的服務", "Measured Service，依用量計費、可監控。", 0],
+          ["易混淆陷阱選項", "「硬體虛擬化」是實現技術手段，不是NIST五大特徵之一；「客製化服務」也不屬於五大特徵。", 1]
+        ]},
+        { name: "三大服務模式 IaaS／PaaS／SaaS（核心考點）", points: [
+          ["IaaS基礎架構即服務", "提供運算/儲存/網路等虛擬機資源，用戶可自裝OS，商業模式為「使用才付費」；不提供任何應用服務；代表：Amazon EC2；主要關鍵技術為虛擬化技術。", 1],
+          ["PaaS平台即服務", "用戶掌控應用程式執行環境，但不掌控作業系統/硬體/網路基礎架構；代表：Google App Engine、Microsoft Azure、Force.com。", 1],
+          ["SaaS軟體即服務", "以服務形式提供軟體，用戶不需下載安裝、不需管理維護基礎設施；代表：Google Gmail；「Amazon EC2可視為SaaS先驅」是常見錯誤陷阱敘述，EC2其實是IaaS。", 1],
+          ["IaaS vs PaaS彈性比較", "IaaS通常自動調整資源應付流量爆發；PaaS則多半要開發人員手動調整；IaaS延展性較佳、PaaS自由度較高。", 0],
+          ["SaaS vs ASP差異", "SaaS平台服務為一對多、透過Web Server提供；ASP平台服務為一對一，服務僅限特定應用系統託管。", 1, [
+            ["SaaS", "一對多服務，透過Web Server提供給大量客戶共用同一套軟體。"],
+            ["ASP", "Application Service Provider，一對一服務，僅限特定應用系統託管給單一客戶。"]
+          ]],
+          ["HiCloud不屬於PaaS", "PaaS代表為Force.com／Windows Azure／Google App Engine；中華電信HiCloud實際屬IaaS，是常見的四選一陷阱項。", 1]
+        ]},
+        { name: "四種部署模式", points: [
+          ["公有雲 Public Cloud", "服務對象無限制、對外部客戶提供；並非免費；主要使用者是中小企業或個人；資安風險相對最高。", 1],
+          ["私有雲 Private Cloud", "組織自建、僅供自己或分支機構使用；使用者與網路受特殊限制；初期投資成本較高。", 1],
+          ["混合雲 Hybrid Cloud", "兩個以上雲組成但維持單一實體，藉標準/專有技術聯繫使資料可移植；企業常將非關鍵資料放公有雲、關鍵資料留私有雲，適合金融機構、政府機關等高監控需求組織。", 0],
+          ["社群雲 Community Cloud", "多個利益相仿組織共享，使用者為特定範圍群體，非單一內部亦非完全公開。", 1]
+        ]},
+        { name: "優勢、挑戰與未解問題", points: [
+          ["雲端運算優勢", "提升資源利用率、減少初期投資、降低管控開銷；精簡IT人力不在此列。", 0],
+          ["個人使用者好處", "免購置高效能電腦、免安裝維護升級軟體、可下載所需軟體；不含「資料保存不易損壞」。", 0],
+          ["企業導入好處", "減少初期投資避財務風險、提升IT資源利用率、降低IT管理成本；不含「提高資訊安全性」。", 0],
+          ["「新挑戰」的陷阱", "資安挑戰、隱私權挑戰、IT基礎設施挑戰才是新挑戰；「企業投資成本挑戰」不算新挑戰，因為不論是否採用雲端架構，IT建設本來就需要相當成本投入。", 1],
+          ["技術挑戰三項", "國際通用標準建立、使用者使用習慣改變、硬體價格居高不下；「安全性」不歸類在技術挑戰這組選項中。", 0],
+          ["未來待解問題", "廠商各自為政缺乏統一技術標準、故障情境需統一服務標準保障可用性、大型資料中心高能耗問題；雲端運算不會讓資料安全問題消失。", 0]
+        ]}
+      ]
+    },
+    {
+      name: "雲端運算的技術概念", short: "技術概念", count: 75, key: "c2",
+      subtopics: [
+        { name: "虛擬化技術基礎與分類", points: [
+          ["虛擬化定義", "電腦資源的抽象表示，涵蓋CPU/記憶體/儲存/網路/桌面，但不包含應用軟體。", 0],
+          ["虛擬化特性辨析", "操作效率比直接操作實體資源「差」，非更佳；用戶可用通用方式查看維護資源。", 1],
+          ["虛擬化六種分類", "展示層／應用層／桌面／網路／儲存／作業系統虛擬化。", 0],
+          ["全虛擬化 vs 半虛擬化", "Full Virtualization vs Para Virtualization；半虛擬化Guest OS需修改系統核心。", 1, [
+            ["全虛擬化 Full Virtualization", "Guest OS不需修改即可運行，虛擬化層完整模擬硬體。"],
+            ["半虛擬化 Para Virtualization", "Guest OS需修改系統核心以配合虛擬化層，換取較好效能。"]
+          ]],
+          ["原生架構 vs 寄宿架構", "Bare Metal直接運行於虛擬化平台效能較佳；Hosted依賴宿主作業系統效能較低。", 1],
+          ["VMM／Hypervisor", "虛擬機監視器/虛擬化平台，實現虛擬化抽象層，會產生一定效能損耗。", 0]
+        ]},
+        { name: "伺服器與桌面虛擬化實務", points: [
+          ["伺服器虛擬化關鍵特性", "多實例／隔離性／封裝性；不含「繼承性」或「平衡負載」。", 1],
+          ["桌面虛擬化優勢", "降低成本、提升安全性；不含提升伺服器效能、增加硬碟儲存空間。", 0],
+          ["著名桌面虛擬化軟體", "VMware Workstation、Windows/Citrix XenDesktop、Oracle VM Server。", 0],
+          ["VMware vSphere虛擬化類型", "屬於桌面虛擬化技術軟體，考題反覆考這個具體歸類。", 0],
+          ["Xen虛擬化技術系統核心", "Linux kernel。", 1],
+          ["虛擬化環境管理工具主要功用", "創建虛擬機、工作負荷管理最佳化、監督運行狀況；不含確保資安防護。", 0],
+          ["各類虛擬化的具體好處對應", "網路虛擬化好處＝虛擬機可移動到任何區域機房；作業系統虛擬化好處＝避免敏感資料外洩＋集中式管理（非分散式管理）；儲存虛擬化好處＝提升現有儲存設備可用度與使用率。", 1, [
+            ["網路虛擬化好處", "虛擬機可移動到任何區域機房，不受實體網路架構限制。"],
+            ["作業系統虛擬化好處", "避免敏感資料外洩＋集中式管理（注意：是集中式，非分散式）。"],
+            ["儲存虛擬化好處", "提升現有儲存設備的可用度與使用率。"]
+          ]]
+        ]},
+        { name: "巨量資料核心概念", points: [
+          ["巨量資料5V特性", "Volume/Variety/Velocity/Veracity；不含「Validation」。", 1],
+          ["巨量資料型態辨析", "「非結構化資料占大部分」是常考的正確敘述方向，要留意題目怎麼問。", 1],
+          ["巨量資料應用範圍判斷", "零售交易資料、網路流量監測、Google流感預測算數；固定樣本統計（如「某班學生修課人數」）不算巨量資料。", 1],
+          ["巨量資料處理技術", "平行運算、計算機叢集系統、儲存冗餘機制、虛擬化。", 0],
+          ["記憶體容量單位大小排序", "GB<TB<PB<EB<ZB，每級皆1024倍。", 1],
+          ["Big Data正確英文寫法", "非Large/Huge/Great Data。", 0],
+          ["巨量資料判斷情境題", "大量交易/就醫紀錄/地理人文資料算；30年員工薪資這種固定樣本不算。", 0]
+        ]},
+        { name: "分散式檔案系統與儲存技術", points: [
+          ["HDFS架構", "一個NameNode＋多個DataNode；NameNode有單一弱點SPOF；適合一次讀多次寫。", 1],
+          ["GFS設計特性", "適合大量小檔案、尾端附加寫入方式；「例外處理管理元件失敗」為錯誤敘述。", 1],
+          ["GFS設計需求（另一題）", "容錯和故障回復機制／改變檔案系統以中小檔案為準的設計準則以適應超大檔案存取／隱藏檔案系統下層負載平衡與備援複製的細節。", 0],
+          ["DFS核心概念", "客戶端透過網路與伺服器溝通、非直接存取底層儲存區塊；隱藏負載平衡與備援複製細節。", 0],
+          ["分散式檔案系統範例辨識", "CEPH／Lustre／GlusterFS皆是；Btrfs不是分散式檔案系統。", 1],
+          ["DFS複寫限制數字", "每伺服器最多256個複寫群組成員；每群組最多256個成員；不含「每測試檔案上限256GB」。", 0]
+        ]},
+        { name: "NoSQL資料庫與大數據儲存", points: [
+          ["NoSQL四大儲存型態", "Key-Value／Document-Oriented／Column Family／Graph；不含XML、多媒體儲存。", 1],
+          ["NoSQL資料庫特性", "不用SQL查詢語言、分散式容錯架構；不保證完整ACID，改用CAP理論／BASE模型。", 1],
+          ["BASE模型", "Soft-state／Basically available／Eventual Consistency；不含Join。", 0],
+          ["CAP理論", "Consistency／Availability／Partition tolerance，三者只能取二。", 1, [
+            ["Consistency", "一致性，所有節點在同一時間看到相同的資料。"],
+            ["Availability", "可用性，每個請求都能得到回應（不保證是最新資料）。"],
+            ["Partition tolerance", "分區容錯性，系統在網路分區故障時仍能運作。"]
+          ]],
+          ["BigTable架構", "建立在GFS/Scheduler/Lock Service/MapReduce上；資料依行關鍵字字典序排序；權限可細至column family。", 0],
+          ["HBase特性", "依Google BigTable論文實作；不提供SQL查詢、不提供JOIN；屬Key-Value儲存；寫入先到MemCache+Write-Ahead Log。", 1],
+          ["SQL vs NoSQL比較", "SQL用ACID+schema架構；NoSQL用CAP理論、無schema、資料採最終一致性。", 1],
+          ["巨量資料分析技術情境選型", "社群關係資料用Graph database；文件搜尋用Document database；不定結構網頁用Key-Value Store；大量銷售點資料用In-Memory Database。", 0],
+          ["Dynamo分散式儲存系統", "亞馬遜設計的分散式儲存系統，基於Key-Value型態。", 0],
+          ["In-memory Database產品範例", "利用記憶體建立分散式儲存來加快讀取速度的代表產品是Memcached（非BigTable/HBase/AllegroGraph）。", 0],
+          ["NoSQL四類型代表產品配對陷阱", "Key-Value（BigTable、Hbase）／In-memory（Memcached、Redis）／Graph（InfoGrid）／Document（Cassandra，此為陷阱！Cassandra實際屬Column-family類型）。", 1]
+        ]},
+        { name: "MapReduce運算框架", points: [
+          ["Master/Worker角色分工", "Master負責任務調度；Worker負責資料處理，常考角色對調當幹擾。", 1],
+          ["MapReduce工作流程七步驟", "啟動→分派Map→Map讀入資料→Map寫中間結果到本機→分派Reduce→Reduce用RPC遠端讀取Map本機資料→Reduce輸出最終結果。", 0],
+          ["MapReduce設計原則", "5 Map節點+4 Reduce節點可能有20條通信鏈路；任務粗細度劃分求平行效能最佳化。", 0],
+          ["MapReduce演算法策略類比", "Divide and Conquer分治法。", 0],
+          ["MapReduce適用場景", "適合一次寫多次讀的可平行化計算，提供容錯與負載平衡；「資料相依性高」的平行計算中表現「不」好。", 1]
+        ]},
+        { name: "SOA服務導向架構與網路基礎", points: [
+          ["SOA定義", "虛擬化架構，將IT資源以服務方式傳遞；整合異質系統、軟體服務化的企業軟體架構。", 0],
+          ["SOA常用工具與呈現方式", "ESB、BPM；軟體呈現為Web Services。", 0],
+          ["SOA優點", "整合技術平台、統一技術標準、充分利用硬體資源；不含「提高軟體系統成本」。", 1],
+          ["SOA服務要素", "可重複使用、可控制封裝邏輯、可延後狀態管理；不含「無須統一設計標準」。", 1],
+          ["Web Services常用協定", "SOAP、REST；不含JDNI、CORBA。", 0],
+          ["TCP/IP模型層級對應", "Transport Layer對應TCP/UDP。", 0],
+          ["WAN跨網段核心設備", "路由器Router，非交換器/防火牆/NAT。", 1],
+          ["SDN優點", "增加網路敏捷度、降低成本、不受硬體廠商限制；不含「提高網路設備使用年限」。", 0],
+          ["SOA導入案例題", "航空公司訂位系統情境：正解是「將查詢航機空位及費率封裝為共用服務，提供旅行社線上訂位系統使用」。", 0]
+        ]}
+      ]
+    },
+    {
+      name: "雲端服務規劃、建置、導入及效益分析", short: "規劃建置", count: 125, key: "c3",
+      subtopics: [
+        { name: "雲端服務模式定義與代表產品", points: [
+          ["IaaS/PaaS/SaaS定義與代表", "IaaS如Amazon EC2/S3/SQS；PaaS如Google App Engine/Windows Azure；SaaS如Dynamics CRM/Exchange Hosted Services/Salesforce.com。", 1],
+          ["PaaS四種子類型", "App Component／Innovation／Development／Deployment Platform as a Service，考題常四選一辨識。", 1],
+          ["常見誤答陷阱", "EC2屬IaaS非PaaS；Amazon EC2、Google App Engine、Windows Azure三者服務層級不同，常混淆。", 1],
+          ["Force.com平台", "用「無程式設計」點擊式精靈＋Apex Code（salesforce.com專屬程式語言）做應用程式創新。", 0],
+          ["雲端運算分層架構特徵對比", "應用層特徵＝透過瀏覽器/API存取、不需一次性投資、高度整合、多租戶標準一致但可客製化；基礎架構層特徵＝資源部署/監控/容錯設計/負載管理。", 1, [
+            ["應用層特徵", "透過瀏覽器或API存取，不需一次性投資，高度整合，多租戶標準一致但可客製化。"],
+            ["基礎架構層特徵", "著重資源部署、監控、容錯設計、負載管理等底層能力。"]
+          ]]
+        ]},
+        { name: "雲端部署模式", points: [
+          ["公有雲 Public Cloud", "透過Internet提供資源給大眾使用。", 1],
+          ["私有雲 Private Cloud", "企業選擇私有雲而非公有雲的原因：資訊安全性與保密考量，非成本或可用性。", 1],
+          ["混合雲 Hybrid Cloud", "結合公有與私有雲。", 0],
+          ["社群雲 Community Cloud", "服務於較鬆散的企業/組織/個人聯盟，如區域醫療衛生平台。", 1]
+        ]},
+        { name: "SLA與服務品質管理", points: [
+          ["SLA服務層級協議定義", "以企業為導向、可創造商業利益；須定義可用率計算方式、事故回復時間、服務範圍；不會定義用戶應盡義務。", 1],
+          ["SLA制定原則", "成本價格與服務內容應「透明化」，非不透明；需盡快評估KPI。", 0],
+          ["SLA類型架構", "服務協定架構／客戶協定架構／應用協定架構／多層次服務協定架構Multi-Level SLA。", 0],
+          ["PaaS服務水準協議應納入項目", "資料加密、計量方式，非資料保留刪除、非硬體清除銷毀。", 1],
+          ["雲端服務透明化資訊", "供應商應提供安全性、隱私性、持續性、遵從性等項目供用戶評估選擇。", 0],
+          ["SaaS成熟度模型四級", "第一級傳統client-server／第二級同客戶應用實例主機／第三級單一實例服務不同客戶+可配置元數據／第四級負載平衡服務器群+資料分開+可配置元數據。", 0, [
+            ["第一級", "傳統client-server架構，未真正雲端化。"],
+            ["第二級", "同一客戶的應用實例集中在同一主機。"],
+            ["第三級", "單一應用實例服務多個不同客戶，透過可配置元數據做客製化。"],
+            ["第四級", "負載平衡伺服器群，資料與應用分開，並可配置元數據，延展性最佳。"]
+          ]]
+        ]},
+        { name: "高可用性、負載平衡與擴充策略", points: [
+          ["負載平衡 Load Balancing", "建立高可用性HA與高可擴展性的技術，解決單點故障造成服務中斷。", 0],
+          ["高可用性 HA 定義辨析", "易混淆選項：「單一伺服主機也能持續不中斷」為錯誤敘述，需多節點才能達成HA。", 1],
+          ["高可擴展性定義辨析", "可負載平衡多主機/多用戶端要求；並非「無法跨叢集負載平衡」。", 1],
+          ["Scale-up vs Scale-out", "垂直擴充＝在現有節點增加運算資源升級；水平擴充＝保留原硬體再接上新硬體節點，需叢集管理支援多伺服器。", 1, [
+            ["Scale-up 垂直擴充", "在現有節點上增加運算資源（如加CPU/記憶體）升級。"],
+            ["Scale-out 水平擴充", "保留原硬體，再接上新硬體節點，需叢集管理支援多伺服器協同運作。"]
+          ]],
+          ["容錯 Fault Tolerance", "主要目的是提高可靠度、降低服務中斷風險，非降低發生風險機率本身；預留standby資源；可用性以年正常運行時間百分率表示，非月。", 1],
+          ["提高容錯能力做法", "分散資料備援、前端負載平衡器、依請求類別切割子服務、預估流量提前擴充；不含「僅依賴單一雲端儲存商」。", 0]
+        ]},
+        { name: "虛擬化技術與產品品牌", points: [
+          ["VMM／Hypervisor", "負責管理虛擬機器的軟體正式名稱。", 1],
+          ["Citrix Xen產品線", "XenApp＝Windows-based應用交付系統；XenDesktop＝伺服器端桌面虛擬化；XenServer＝x86架構全虛擬化；Xen本身是「開放原始碼」虛擬機監視器，非僅支援Windows。", 1, [
+            ["XenApp", "Windows-based應用交付系統。"],
+            ["XenDesktop", "伺服器端桌面虛擬化解決方案。"],
+            ["XenServer", "x86架構的全虛擬化平台。"],
+            ["Xen（核心）", "開放原始碼虛擬機監視器，並非僅支援Windows，這是常見錯誤選項。"]
+          ]],
+          ["硬體虛擬化兩大方式", "單核心型Monolithic／微核心型Microkernel，在硬體與OS間插入虛擬層。", 0],
+          ["桌面虛擬化效益", "精簡型用戶端更省電、集中管理提升資料安全性、簡化部署降低成本、對網路環境需求降低。", 0],
+          ["伺服器虛擬化本質", "一台實體裝置劃分多台虛擬裝置，資源隔離、提升利用率、降低初期建置費用。", 0],
+          ["VMware產品線", "VMware Infrastructure（虛擬化軟體套件）／vCenter Server（管理工具集）／VMware Server（免費虛擬機監視器）／Capacity Planner（IT資源規劃工具）。", 0, [
+            ["VMware Infrastructure", "完整的虛擬化軟體套件。"],
+            ["vCenter Server", "集中管理虛擬化環境的管理工具集。"],
+            ["VMware Server", "免費的虛擬機監視器產品。"],
+            ["Capacity Planner", "IT資源容量規劃工具。"]
+          ]],
+          ["Microsoft System Center產品線", "VMM（備份+OS部署）／Configuration Manager（更新檔管理）／Operation Manager（監控+性能報告+出錯預警）／Data Protection Manager（備份恢復+同時管理實體虛擬環境）。", 0, [
+            ["VMM", "虛擬機管理，含備份與OS部署功能。"],
+            ["Configuration Manager", "負責更新檔（patch）管理。"],
+            ["Operation Manager", "負責監控、性能報告、出錯預警。"],
+            ["Data Protection Manager", "備份恢復，可同時管理實體與虛擬環境。"]
+          ]]
+        ]},
+        { name: "多租戶架構與資料隔離", points: [
+          ["多租戶 Multi-tenancy 定義", "多用戶共用同一服務提供者的運算資源，按需租賃取得。", 0],
+          ["資料隔離技術", "同資料庫不同表格／同資料庫同表格但用標識欄位區分／每租戶單獨資料庫；「給每個用戶單位主機」非一般採用做法。", 1],
+          ["多租戶 vs 虛擬化辨析", "多租戶技術也具虛擬化部分優點如簡化管理；大量用戶用同類型應用較適用虛擬化技術。", 1],
+          ["多租戶應用程式設計關鍵考量", "資訊安全、資源共享、客製設定、資料隔離；不含「工程安全」這種泛稱選項。", 0]
+        ]},
+        { name: "雲端資安", points: [
+          ["資料保護CAI三特性", "機密性Confidentiality、完整性Integrity、可用性Availability；注意題目會混入「身份鑑別」「隔離性」「加密」等干擾選項。", 1],
+          ["資安威脅模式四類型", "類STRIDE框架：欺騙身份Spoofing、篡改資料Tampering、資訊洩漏Information Disclosure、拒絕服務DoS。", 1, [
+            ["欺騙身份 Spoofing", "允許用戶或伺服器偽裝成有效用戶。"],
+            ["篡改資料 Tampering", "未經授權竄改資料內容。"],
+            ["資訊洩漏 Information Disclosure", "敏感資訊暴露給未授權對象。"],
+            ["拒絕服務 DoS", "使服務無法正常回應合法請求。"]
+          ]],
+          ["ENISA雲端運算風險四分類", "歐洲網路與資訊安全局白皮書：政策與組織風險、技術風險、法規風險、非雲端特定風險。", 1],
+          ["IaaS/PaaS/SaaS資安考量各自不同", "IaaS著重實體環境安全、網路與主機安全、服務穩定持續性；PaaS著重應用安全設計框架；SaaS著重身分識別與存取管理、服務執行過程資訊保護。", 1],
+          ["雲端安全風險評估四面向", "基礎設施安全掌握薄弱、法規適用性因供應商所在國而異、事件鑑識支援受限、企業對資料保護責任與所有權不因採用雲端而降低。", 0],
+          ["CSA雲端安全聯盟7大安全威脅", "與ENISA是不同分類系統：濫用雲端運算／不安全的API／共享環境議題／帳號服務被竊取／資料遺失外洩／駭客入侵／惡意內部員工。", 1],
+          ["微軟線上服務邏輯安全性措施", "DEP資料執行保護功能／RBL即時阻止列表和安全列表／兩個網路介面／S/MIME安全多用途網際郵件擴充協議。", 0],
+          ["SRMP／ISO 27001框架對比", "微軟線上服務風險管理準則考ISO 27001；選項含ITIL／SRMP(Security Risk Management Plan)／ISO27001／RMP(Risk Management Program)四個框架名稱對比。", 1, [
+            ["ISO 27001", "資訊安全管理系統國際標準。"],
+            ["SRMP", "Security Risk Management Plan，安全風險管理計畫。"],
+            ["ITIL", "IT服務管理最佳實務框架。"],
+            ["RMP", "Risk Management Program，風險管理程序。"]
+          ]]
+        ]},
+        { name: "主要雲端平台與技術生態系", points: [
+          ["AWS平台層服務", "電商Web服務、支付Amazon Flexible Payments Service、物流Amazon Fulfillment Web Service、聯盟行銷Amazon Associates Web Service、DevPay計費服務。", 1],
+          ["Google App Engine核心技術", "GFS Google File System、大規模分散運算架構、大規模分散資料庫三大基礎架構，屬PaaS服務。", 1],
+          ["ITIL資訊科技基礎架構庫", "英國政府發展，為ITSM工業標準，五大服務生命週期：Service Strategy、Service Design、Service Transition、Service Operation、Continual Improvement。", 1],
+          ["RIA豐富性網際網路應用程式", "是SaaS使用者端開發技術，非PaaS；比一般桌上型軟體更「受限、複雜、困難」，非更簡單。", 1],
+          ["Hadoop生態系元件", "HDFS分散式檔案系統／HBase可擴充分散式結構化資料庫／Avro／Chukwa，考題常混合四選一。", 1],
+          ["SOAP協定", "Simple Object Access Protocol，屬Web Service技術協定。", 0]
+        ]},
+        { name: "綠色雲端、服務管理與導入評估", points: [
+          ["PUE電源使用效率", "Power Usage Effectiveness，數值越接近1越節能；符合綠能低碳做法包含空調冷卻、再生能源選址、環保工藝、集中管理熱量。", 0],
+          ["IaaS建置四大要素", "資源整合、管理工作負載、流程自動化、最佳化服務發佈。", 0],
+          ["SaaS導入常見問題", "雲端軟體必須具備「易用性」——若題目說「不需具備易用性」即為錯誤選項，此為高頻陷阱題。", 1],
+          ["雲端服務管理範疇", "服務發布、安全稽核管理、服務設計、使用者群組管理屬於服務管理項目。", 0],
+          ["委外導入SaaS的效益辨析", "減少IT建置成本、依需求付費；但「取代傳統IT部門角色」為過度推論的錯誤敘述。", 0],
+          ["多租戶+虛擬化混合案例判讀", "如企業5套系統低使用率，部分功能用SaaS、部分用PaaS客製化，是較合適的混合遷移策略。", 0]
+        ]}
+      ]
+    }
+  ];
+
+  document.getElementById("brand-name").textContent = CONFIG.pageTitle;
+  document.getElementById("hero-eyebrow").textContent = CONFIG.courseName + "・備課參考";
+
+  var totalQuestions = 0, totalSub = 0, totalLeaf = 0, totalHot = 0;
+  DATA.forEach(function (cat) {
+    totalQuestions += cat.count;
+    cat.subtopics.forEach(function (sub) {
+      totalSub++;
+      sub.points.forEach(function (p) { totalLeaf++; if (p[2]) totalHot++; });
+    });
+  });
+
+  document.getElementById("stat-line").textContent = DATA.length + "大類・" + totalSub + "子主題・共" + totalQuestions + "題";
+  document.getElementById("hero-title").textContent =
+    CONFIG.heroTitle || ("把 " + totalQuestions + " 題題庫，整理成可以直接拿去排課的大綱");
+  document.getElementById("hero-desc").textContent =
+    CONFIG.heroDesc || ("依 " + DATA.length + " 大類、" + totalSub + " 個子主題整理知識點，附建議授課比重，帶 ★ 的是題庫中特別容易混淆或高頻出現的重點，排課時可以多留一點時間。");
+  document.getElementById("page-footer").innerHTML =
+    "資料來源：" + escapeHtml(CONFIG.sourceNote) + "（" + escapeHtml(CONFIG.courseCode) + "）題目解析內容整理，共 " + totalQuestions + " 題。知識點文字為AI依題庫內容摘要整理，正式授課前建議對照原始題目複核。";
+
+  var jumpnav = document.getElementById("jumpnav");
+
+  var overviewChip = document.createElement("button");
+  overviewChip.type = "button";
+  overviewChip.className = "jumpchip";
+  overviewChip.setAttribute("data-tab", "overview");
+  overviewChip.textContent = "總覽";
+  jumpnav.appendChild(overviewChip);
+
+  DATA.forEach(function (cat, i) {
+    var a = document.createElement("button");
+    a.type = "button";
+    a.className = "jumpchip";
+    a.setAttribute("data-tab", String(i));
+    a.innerHTML = '<span class="dot" style="background:var(--' + cat.key + ')"></span>' + (i + 1) + ". " + escapeHtml(cat.short || cat.name);
+    jumpnav.appendChild(a);
+  });
+
+  var planTable = document.getElementById("plan-table");
+  var header = document.createElement("div");
+  header.className = "plan-row";
+  header.innerHTML = "<span></span><span>單元</span><span class='num'>題數</span><span class='num'>比重</span><span class='num'>子主題</span><span class='num'>重點★</span><span class='num'>建議時數</span>";
+  planTable.appendChild(header);
+
+  var hoursCells = [];
+
+  DATA.forEach(function (cat, i) {
+    var hotCount = 0, subCount = cat.subtopics.length;
+    cat.subtopics.forEach(function (s) { s.points.forEach(function (p) { if (p[2]) hotCount++; }); });
+    var fraction = totalQuestions ? cat.count / totalQuestions : 0;
+    var pct = Math.round(fraction * 100);
+
+    var row = document.createElement("a");
+    row.className = "plan-row";
+    row.href = "#unit-" + i;
+    row.setAttribute("data-tab", String(i));
+    row.innerHTML =
+      '<span class="dot" style="background:var(--' + cat.key + ')"></span>' +
+      '<span class="name">' + (i + 1) + ". " + escapeHtml(cat.name) + "</span>" +
+      '<span class="num">' + cat.count + "題</span>" +
+      '<span class="num">約 ' + pct + "%</span>" +
+      '<span class="num">' + subCount + "</span>" +
+      '<span class="num">' + hotCount + "</span>" +
+      '<span class="num hours-cell">—</span>';
+    planTable.appendChild(row);
+    hoursCells.push({ el: row.querySelector(".hours-cell"), fraction: fraction });
+
+    var bar = document.createElement("div");
+    bar.className = "weightbar";
+    bar.innerHTML = '<span style="width:' + pct + '%; background:var(--' + cat.key + ')"></span>';
+    planTable.appendChild(bar);
+  });
+
+  var hoursInput = document.getElementById("hours-input");
+  hoursInput.addEventListener("input", function () {
+    var total = parseFloat(hoursInput.value);
+    var valid = !isNaN(total) && total > 0;
+    if (!valid) {
+      hoursCells.forEach(function (c) { c.el.textContent = "—"; });
+      return;
+    }
+    var totalSlots = Math.max(0, Math.round(total * 2));
+    var raw = hoursCells.map(function (c) { return c.fraction * totalSlots; });
+    var base = raw.map(Math.floor);
+    var used = base.reduce(function (a, b) { return a + b; }, 0);
+    var remainder = totalSlots - used;
+    var order = raw
+      .map(function (v, i) { return { i: i, frac: v - base[i] }; })
+      .sort(function (a, b) { return b.frac - a.frac; });
+    for (var k = 0; k < remainder && k < order.length; k++) { base[order[k].i]++; }
+    hoursCells.forEach(function (c, i) { c.el.textContent = (base[i] * 0.5).toFixed(1) + "h"; });
+  });
+
+  var unitsEl = document.getElementById("units");
+  DATA.forEach(function (cat, ci) {
+    var section = document.createElement("section");
+    section.className = "unit";
+    section.id = "unit-" + ci;
+    section.style.setProperty("--u-color", "var(--" + cat.key + ")");
+    section.style.setProperty("--u-tint", "var(--" + cat.key + "-tint)");
+
+    var head = document.createElement("div");
+    head.className = "unit-head";
+    var subCount = cat.subtopics.length;
+    head.innerHTML =
+      '<span class="idx">' + (ci + 1) + "</span>" +
+      "<h2>" + escapeHtml(cat.name) + "</h2>" +
+      '<span class="unit-meta">' + cat.count + "題・" + subCount + "個子主題</span>" +
+      '<button class="unit-copy" data-ci="' + ci + '">複製本單元大綱</button>';
+    section.appendChild(head);
+
+    var grid = document.createElement("div");
+    grid.className = "subgrid";
+    cat.subtopics.forEach(function (sub) {
+      var card = document.createElement("div");
+      card.className = "subcard";
+      var h3 = document.createElement("h3");
+      h3.textContent = sub.name;
+      card.appendChild(h3);
+      var ul = document.createElement("ul");
+      sub.points.forEach(function (p) {
+        var terms = p[3];
+        var li = document.createElement("li");
+        li.className = "pt" + (p[2] ? " hot" : "") + (terms ? " expandable" : "");
+        var termsText = terms ? terms.map(function (t) { return t[0] + " " + t[1]; }).join(" ") : "";
+        li.setAttribute("data-text", (p[0] + " " + p[1] + " " + termsText).toLowerCase());
+        li.innerHTML =
+          '<div class="pt-row">' +
+          (p[2] ? '<span class="star">★</span>' : "") +
+          "<b>" + escapeHtml(p[0]) + "</b>　" + escapeHtml(p[1]) +
+          (terms ? '<span class="expand-mark" aria-hidden="true">展開<span class="chev">▾</span></span>' : "") +
+          "</div>";
+        if (terms) {
+          var sub2 = document.createElement("ul");
+          sub2.className = "sub-terms";
+          terms.forEach(function (t) {
+            var li2 = document.createElement("li");
+            li2.innerHTML = "<b>" + escapeHtml(t[0]) + "</b>　" + escapeHtml(t[1]);
+            sub2.appendChild(li2);
+          });
+          li.appendChild(sub2);
+          li.setAttribute("tabindex", "0");
+          li.setAttribute("role", "button");
+          li.setAttribute("aria-expanded", "false");
+          li.addEventListener("click", function () { toggleExpand(li); });
+          li.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleExpand(li); }
+          });
+        }
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      grid.appendChild(card);
+    });
+    section.appendChild(grid);
+    unitsEl.appendChild(section);
+  });
+
+  var currentTab = "overview";
+
+  function setActiveTab(tabId, opts) {
+    opts = opts || {};
+    currentTab = tabId;
+    var isOverview = tabId === "overview";
+
+    document.body.classList.toggle("tab-single", !isOverview);
+
+    DATA.forEach(function (cat, i) {
+      var el = document.getElementById("unit-" + i);
+      var show = isOverview || String(i) === String(tabId);
+      el.style.display = show ? "" : "none";
+      el.classList.toggle("single", !isOverview && show);
+    });
+
+    Array.prototype.forEach.call(jumpnav.querySelectorAll(".jumpchip"), function (chip) {
+      chip.classList.toggle("active", chip.getAttribute("data-tab") === String(tabId));
+    });
+
+    if (!opts.skipHash) {
+      history.replaceState(null, "", "#" + (isOverview ? "overview" : "unit-" + tabId));
+    }
+    applySearchFilter();
+    if (!opts.skipScroll) window.scrollTo({ top: 0, behavior: "auto" });
+  }
+
+  document.addEventListener("click", function (e) {
+    var tabEl = e.target.closest("[data-tab]");
+    if (tabEl) {
+      e.preventDefault();
+      setActiveTab(tabEl.getAttribute("data-tab"));
+    }
+  });
+
+  document.getElementById("btn-back").addEventListener("click", function () {
+    setActiveTab("overview");
+  });
+
+  function initTabFromHash() {
+    var h = location.hash.replace("#", "");
+    var m = h.match(/^unit-(\d+)$/);
+    if (m && DATA[parseInt(m[1], 10)]) {
+      setActiveTab(m[1], { skipHash: true, skipScroll: true });
+    } else {
+      setActiveTab("overview", { skipHash: true, skipScroll: true });
+    }
+  }
+
+  function toggleExpand(li) {
+    var isOpen = li.classList.toggle("expanded");
+    li.setAttribute("aria-expanded", isOpen ? "true" : "false");
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function outlineText(ci) {
+    var cat = DATA[ci];
+    var lines = [cat.name + "（" + cat.count + "題）", ""];
+    cat.subtopics.forEach(function (sub) {
+      lines.push("■ " + sub.name);
+      sub.points.forEach(function (p) {
+        lines.push("　" + (p[2] ? "★ " : "・") + p[0] + "：" + p[1]);
+        if (p[3]) {
+          p[3].forEach(function (t) { lines.push("　　- " + t[0] + "：" + t[1]); });
+        }
+      });
+      lines.push("");
+    });
+    return lines.join("\n");
+  }
+  function copyText(text, btn) {
+    var done = function () {
+      var old = btn.textContent;
+      btn.textContent = "已複製 ✓";
+      setTimeout(function () { btn.textContent = old; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(function () { fallbackCopy(text); done(); });
+    } else {
+      fallbackCopy(text); done();
+    }
+  }
+  function fallbackCopy(text) {
+    var ta = document.createElement("textarea");
+    ta.value = text; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  document.addEventListener("click", function (e) {
+    var btn = e.target.closest(".unit-copy");
+    if (btn) copyText(outlineText(parseInt(btn.getAttribute("data-ci"), 10)), btn);
+  });
+
+  document.getElementById("btn-copyall").addEventListener("click", function (e) {
+    var all = DATA.map(function (_, i) { return outlineText(i); }).join("\n");
+    copyText(CONFIG.courseName + "　備課大綱\n\n" + all, e.currentTarget);
+  });
+
+  var termsExpanded = false;
+  document.getElementById("btn-expand-terms").addEventListener("click", function (e) {
+    termsExpanded = !termsExpanded;
+    e.currentTarget.textContent = termsExpanded ? "▴ 收合全部名詞說明" : "▾ 展開全部名詞說明";
+    Array.prototype.forEach.call(document.querySelectorAll(".subcard li.expandable"), function (li) {
+      li.classList.toggle("expanded", termsExpanded);
+      li.classList.remove("auto-expanded");
+      li.setAttribute("aria-expanded", termsExpanded ? "true" : "false");
+    });
+  });
+
+  var hotOn = false;
+  document.getElementById("btn-hot").addEventListener("click", function (e) {
+    hotOn = !hotOn;
+    e.currentTarget.classList.toggle("active", hotOn);
+    Array.prototype.forEach.call(document.querySelectorAll(".subcard li"), function (li) {
+      li.classList.toggle("pt-dim", hotOn && !li.classList.contains("hot"));
+    });
+  });
+
+  var searchInput = document.getElementById("search");
+
+  function applySearchFilter() {
+    var q = searchInput.value.trim().toLowerCase();
+    var anyMatch = false;
+    var isOverview = currentTab === "overview";
+
+    DATA.forEach(function (cat, i) {
+      var unit = document.getElementById("unit-" + i);
+      var tabEligible = isOverview || String(i) === String(currentTab);
+      if (!tabEligible) return;
+
+      var unitHasMatch = false;
+      Array.prototype.forEach.call(unit.querySelectorAll(".subcard"), function (card) {
+        var cardHasMatch = false;
+        Array.prototype.forEach.call(card.querySelectorAll("li.pt"), function (li) {
+          var isMatch = q && li.getAttribute("data-text").indexOf(q) !== -1;
+          li.classList.toggle("pt-match", !!isMatch);
+          li.classList.toggle("pt-dim", !!q && !isMatch);
+          if (isMatch) {
+            cardHasMatch = true;
+            anyMatch = true;
+            if (li.classList.contains("expandable") && !li.classList.contains("expanded")) {
+              li.classList.add("expanded", "auto-expanded");
+              li.setAttribute("aria-expanded", "true");
+            }
+          } else if (li.classList.contains("auto-expanded")) {
+            li.classList.remove("expanded", "auto-expanded");
+            li.setAttribute("aria-expanded", "false");
+          }
+        });
+        card.style.display = (!q || cardHasMatch) ? "" : "none";
+        if (cardHasMatch) unitHasMatch = true;
+      });
+
+      if (isOverview) unit.style.display = (!q || unitHasMatch) ? "" : "none";
+    });
+
+    document.getElementById("no-results").style.display = (q && !anyMatch) ? "block" : "none";
+    document.getElementById("no-results-q").textContent = q;
+  }
+
+  searchInput.addEventListener("input", applySearchFilter);
+
+  initTabFromHash();
+})();
+</script>
